@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MessageDao extends JpaRepository<Message, Long> {
 
-    Message save(Message pet);
+    Message save(Message message);
 }
