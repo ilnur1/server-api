@@ -1,7 +1,7 @@
 package org.example.service;
 
 
-import org.example.dao.MessageDao;
+import org.example.dao.MessageRepository;
 import org.example.dto.MessageDto;
 import org.example.entity.Message;
 import org.example.mapping.MessageRqMapping;
@@ -30,13 +30,13 @@ public class MessageServiceImplTest {
 
     private MessageServiceImpl service;
     @Mock
-    private MessageDao dao;
+    private MessageRepository repository;
     @Mock
     private MessageRqMapping mapping;
 
     @BeforeEach
     void before() {
-        service = new MessageServiceImpl(dao, mapping);
+        service = new MessageServiceImpl(repository, mapping);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class MessageServiceImplTest {
                 .withTime(TIME)
                 .withType(TYPE);
 
-        when(dao.save(any())).thenReturn(message);
+        when(repository.save(any())).thenReturn(message);
         ResponseEntity<Message> response = service.save(new MessageDto()
                 .withMessage(MESSAGE)
                 .withLevel(LEVEL)
@@ -68,7 +68,7 @@ public class MessageServiceImplTest {
 
     @Test
     public void saveTest_Fail() {
-        when(dao.save(any())).thenThrow(new RuntimeException());
+        when(repository.save(any())).thenThrow(new RuntimeException());
         ResponseEntity<Message> response = service.save(new MessageDto()
                 .withMessage(MESSAGE)
                 .withLevel(LEVEL)

@@ -1,7 +1,7 @@
 package org.example.service.impl;
 
 import lombok.extern.log4j.Log4j2;
-import org.example.dao.MessageDao;
+import org.example.dao.MessageRepository;
 import org.example.dto.MessageDto;
 import org.example.entity.Message;
 import org.example.mapping.MessageRqMapping;
@@ -15,19 +15,19 @@ import org.springframework.stereotype.Service;
 @Log4j2
 public class MessageServiceImpl implements MessageService {
 
-    private MessageDao dao;
+    private MessageRepository repository;
     private MessageRqMapping mapping;
 
     @Autowired
-    public MessageServiceImpl(MessageDao dao, MessageRqMapping mapping) {
-        this.dao = dao;
+    public MessageServiceImpl(MessageRepository repository, MessageRqMapping mapping) {
+        this.repository = repository;
         this.mapping = mapping;
     }
 
     @Override
     public ResponseEntity<Message> save(MessageDto message) {
         try {
-            ResponseEntity<Message> response = new ResponseEntity<>(dao.save(mapping.map(message)), HttpStatus.OK);
+            ResponseEntity<Message> response = new ResponseEntity<>(repository.save(mapping.map(message)), HttpStatus.OK);
             log.info("Сообщение сохранено: " + response.getBody());
             return response;
         }
